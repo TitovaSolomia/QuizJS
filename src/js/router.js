@@ -1,18 +1,59 @@
+import { store } from './store.js';
+
+const routes = {
+    '/': 'dashboard-page',
+    '/login': 'login-page',
+    '/quiz': 'quiz-page',
+    '/results': 'results-page',
+    '/profile': 'profile-page',
+};
+
 export class Router {
-    constructor(routes) {
-        this.routes = routes;
-    }   
-    start() {
-        window.addEventListener('hashchange', () => this.render());
-        if (!location.hash) location.hash = '#/';
-        this.render();
+    constructor(outlet) {
+        this.outlet = outlet;
+        this.init();
     }
-    getPath() {
-        return location.hash.slice(1) || '/';
+
+    init() {
+        window.addEventListener('hashchange', () => this.handleRoute());
+        window.addEventListener('load', () => this.handleRoute());
     }
-    render() {
-        const path = this.getPath();
-        const tag = this.routes[path] || this.routes['/'];
-        document.querySelector('app-shell').setPage(tag, path);
+
+    handleRoute() {
+        let hash = window.location.hash.slice(1) || '/';
+
+        // Auth Guards
+        const user = store.getState().user;
+
+        // Guard: If not logged in and trying to go anywhere except login, redirect to login
+        if (!user && hash !== '/login') {
+            window.location.hash = '/login';
+            return;
+        }
+
+        // Guard: If logged in and trying to go to login, redirect to dashboard
+        if (user && hash === '/login') {
+            window.location.hash = '/';
+            return;
+        }
+
+        // Default to dashboard if route unknown
+        if (!routes[hash]) {
+            window.location.hash = '/';
+            return;
+        }
+
+        this.render(routes[hash]);
+    }
+
+    render(componentName) {
+        // Clear outlet
+        while (this.outlet.firstChild) {
+            this.outlet.removeChild(this.outlet.firstChild);
+        }
+
+        // Create new page component
+        const page = document.createElement(componentName);
+        this.outlet.appendChild(page);
     }
 }
