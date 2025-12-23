@@ -2,7 +2,6 @@
 
 A premium, feature-rich single-page quiz application built entirely with **Vanilla JavaScript**, **Web Components**, and modern **CSS**.
 
-![QuizUP Screenshot](https://via.placeholder.com/800x400?text=QuizUP+Dashboard)
 
 ## ✨ Features
 
