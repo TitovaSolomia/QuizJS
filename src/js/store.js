@@ -12,6 +12,7 @@ const getInitialState = () => ({
         amount: 10,
         category: null,
         mode: 'standard',
+        difficulty: 'medium'
     },
     lastRun: null,
     history: [],
@@ -108,6 +109,17 @@ class Store extends EventTarget {
         this.state.settings.category = categoryId;
         this.save();
     }
+
+    setDifficulty(difficulty) {
+        const allowed = ['easy', 'medium', 'hard'];
+        const val = (difficulty || '').toLowerCase();
+
+        if (!allowed.includes(val)) return;
+
+        this.state.settings.difficulty = val;
+        this.save();
+    }
+
 
     setAmount(amount) {
         let val = parseInt(amount, 10);
