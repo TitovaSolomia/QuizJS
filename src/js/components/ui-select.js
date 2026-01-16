@@ -35,7 +35,6 @@ export class UiSelect extends HTMLElement {
   render() {
     const label = this.getAttribute('label') || 'Select Option';
 
-    // Generate options HTML
     const optionsHtml = this._options.map(opt =>
       `<option value="${opt.value}">${opt.label}</option>`
     ).join('');

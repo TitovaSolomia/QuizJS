@@ -9,11 +9,9 @@ export class LoginPage extends HTMLElement {
   connectedCallback() {
     this.render();
 
-    // Handle Button Click
     const btn = this.shadowRoot.querySelector('ui-button');
     btn.addEventListener('click', () => this.tryLogin());
 
-    // Handle Enter Key
     const input = this.shadowRoot.querySelector('input');
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -32,7 +30,6 @@ export class LoginPage extends HTMLElement {
       window.location.hash = '/';
     } else {
       input.focus();
-      // Shake or highlight
       input.style.borderColor = 'var(--error-color, red)';
       setTimeout(() => input.style.borderColor = 'var(--text-secondary, #a0a0a0)', 1000);
     }

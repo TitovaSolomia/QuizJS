@@ -1,11 +1,6 @@
-/**
- * Simple Store module with localStorage persistence.
- */
-
 const META_KEY = 'quiz_app_meta_v1';
 const USER_KEY_PREFIX = 'quiz_app_user_';
 
-// Default initial state for a fresh user
 const getInitialState = () => ({
     user: null,
     settings: {
@@ -26,13 +21,6 @@ class Store extends EventTarget {
         this.meta = this.loadMeta();
         this.state = this.loadUser(this.meta.lastUser);
 
-        // Ensure theme is applied on load
-        if (this.state.theme) {
-            // We can't easily access document body here before dom ready sometimes, 
-            // but app-shell subscribes to this.
-        }
-
-        // Define Achievements Metadata
         this.achievementMeta = [
             { id: 'first_win', name: 'First Steps', desc: 'Complete your first quiz', icon: '🐣' },
             { id: 'perfect_10', name: 'Perfect 10', desc: 'Get 10/10 in a quiz', icon: '🎯' },
@@ -57,14 +45,14 @@ class Store extends EventTarget {
         try {
             const key = USER_KEY_PREFIX + username;
             const stored = localStorage.getItem(key);
-            // Merge stored data with initial state to ensure defaults exist
+
             if (stored) {
                 const parsed = JSON.parse(stored);
-                // Ensure Arrays are initialized if data is old
+
                 return {
                     ...getInitialState(),
                     ...parsed,
-                    user: { name: username } // Ensure user obj is set
+                    user: { name: username } 
                 };
             }
         } catch (e) {
@@ -75,32 +63,29 @@ class Store extends EventTarget {
     }
 
     save() {
-        // 1. Save Active User Data
+
         if (this.state.user && this.state.user.name) {
             const key = USER_KEY_PREFIX + this.state.user.name;
             localStorage.setItem(key, JSON.stringify(this.state));
         }
 
-        // 2. Save Meta (Active Session)
         const meta = { lastUser: this.state.user ? this.state.user.name : null };
         localStorage.setItem(META_KEY, JSON.stringify(meta));
 
         this.dispatchEvent(new CustomEvent('state-changed', { detail: this.state }));
     }
 
-    // --- Actions ---
 
     login(name) {
-        // Save previous user if needed (handled by save actions usually, but ensure consistency)
+  
         this.save();
 
-        // Switch context
         this.state = this.loadUser(name);
-        this.save(); // Persist the switch immediately
+        this.save(); 
     }
 
     logout() {
-        this.save(); // Save current before exit
+        this.save(); 
         this.state = getInitialState();
         this.save(); // Clear meta
     }

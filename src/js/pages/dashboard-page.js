@@ -20,7 +20,6 @@ export class DashboardPage extends HTMLElement {
     });
 
     this.shadowRoot.querySelector('ui-select').addEventListener('change', (e) => {
-      // e.detail is string value
       const val = e.detail === 'null' ? null : parseInt(e.detail, 10);
       store.setCategory(val);
     });
@@ -40,7 +39,7 @@ export class DashboardPage extends HTMLElement {
       { value: '17', label: 'Science & Nature' },
       { value: '18', label: 'Computers' },
       { value: '23', label: 'History' },
-      { value: '21', label: 'Sports' },
+      { value: '21', label: 'Sports' }, 
       { value: '22', label: 'Geography' },
       { value: '11', label: 'Film' },
       { value: '12', label: 'Music' }

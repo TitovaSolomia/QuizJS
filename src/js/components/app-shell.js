@@ -109,10 +109,6 @@ export class AppShell extends HTMLElement {
       // If not logged in, this might redirect to login anyway by router, but that's fine.
       window.location.hash = '/profile';
     });
-
-    // Optional: Hide if not logged in? 
-    // We already subscribe to store in connectedCallback -> subscribe -> updateTheme.
-    // Let's add updateAuth.
   }
 }
 

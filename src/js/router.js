@@ -31,13 +31,11 @@ export class Router {
             return;
         }
 
-        // Guard: If logged in and trying to go to login, redirect to dashboard
         if (user && hash === '/login') {
             window.location.hash = '/';
             return;
         }
 
-        // Default to dashboard if route unknown
         if (!routes[hash]) {
             window.location.hash = '/';
             return;
@@ -47,12 +45,11 @@ export class Router {
     }
 
     render(componentName) {
-        // Clear outlet
+
         while (this.outlet.firstChild) {
             this.outlet.removeChild(this.outlet.firstChild);
         }
 
-        // Create new page component
         const page = document.createElement(componentName);
         this.outlet.appendChild(page);
     }

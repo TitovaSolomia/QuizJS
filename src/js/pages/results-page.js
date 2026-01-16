@@ -108,9 +108,7 @@ export class ResultsPage extends HTMLElement {
 
   getCategoryName(id) {
     if (!id) return "All Categories";
-    // Reuse map ideally or just show ID/generic for now as map is internal to dashboard
-    // For simplicity, we can duplicate the map or move it to utils/store.
-    // I'll just return ID if unknown for now to save space, or simple switch.
+    
     const map = {
       '9': 'General Knowledge',
       '17': 'Science & Nature',
